@@ -9,3 +9,21 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+// convention is pascal case, singluar
+model Issue {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255) // col will now accept strings <=255 chars instead of 191 chars
+  description String   @db.Text
+  status      Status   @default(OPEN)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum Status {
+  // enum is set of constant vals
+  // convention is all caps
+  OPEN
+  IN_PROGRESS
+  CLOSED
+}
