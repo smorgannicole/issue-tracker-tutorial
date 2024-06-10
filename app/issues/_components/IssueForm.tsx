@@ -40,6 +40,9 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
       // /api/issues/- base url of the api endpoint where patch request will be sent
       else await axios.post("/api/issues", data);
       router.push("/issues");
+      router.refresh();
+      // tells next.js to refresh the content of current route (/issues)
+      // this overwrites automatic invalidation period
     } catch (error) {
       setIsSubmitting(false);
       setError("An unexpected error occured.");

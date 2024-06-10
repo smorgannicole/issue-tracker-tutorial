@@ -44,4 +44,12 @@ const IssuesPage = async () => {
   );
 };
 
+export const dynamic = "force-dynamic";
+// tells next.js to opt out of static rendering- allows page to render dynamically rather than on new deployment
+
+// export const revalidate = 0;
+// accomplishes same as above
+// telling next.js output of this page has to be revalidated every 0 seconds (all the time)
+// dont want any caching on this page, so better to use force dynamic option
+
 export default IssuesPage;
