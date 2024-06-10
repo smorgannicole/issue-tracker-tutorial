@@ -1,4 +1,5 @@
 "use client";
+import { Spinner } from "@/app/components";
 // must convert this component from server to client component bc requires user interaction
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 import axios from "axios";
@@ -8,13 +9,16 @@ import { useState } from "react";
 const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
   const router = useRouter();
   const [deleteError, setDeleteError] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const deleteIssue = async () => {
     try {
+      setIsDeleting(true);
       await axios.delete("/api/issues/" + issueId);
       router.push("/issues");
       router.refresh();
     } catch (error) {
+      setIsDeleting(false);
       setDeleteError(true);
     }
   };
@@ -25,7 +29,11 @@ const DeleteIssueButton = ({ issueId }: { issueId: number }) => {
         {/* serves as container for the dialog and manages state (open or closed) */}
         <AlertDialog.Trigger>
           {/* trigger for opening the dialog and wraps around delete btn component- when btn is clicked, it triggers the AlertDialog to open */}
-          <Button color="red">Delete Issue</Button>
+          <Button color="red" disabled={isDeleting}>
+            Delete Issue
+            {isDeleting && <Spinner />}
+          </Button>
+          {/* disabling btn so to not throw an error if delay */}
         </AlertDialog.Trigger>
         <AlertDialog.Content>
           {/* defines content of the dialog that will be displayed when the dialog is opened */}
